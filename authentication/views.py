@@ -67,15 +67,15 @@ def register_user(request):
                     return render(request, 'authentication/register.html', context)
                 user = User.objects.create_user(username=username, 
                                                 email=email, 
-                                                staff_code=staff_code,
+                                                # staff_code=staff_code,
                                                 password=password, 
                                                 first_name=first_name, 
                                                 last_name=last_name,
                                                 employee_id=employee_id,
                                                 tel=tel)
                 user.set_password(password)
-                perm = Permission.objects.get(name=['Can add report'])
-                user.user_permissions.add(perm)
+                # perm = Permission.objects.get(name=['Can add report'])
+                # user.user_permissions.add(perm)
                 user.save()
                 return render(request, 'authentication/register.html')
         messages.error(request, 'User alredy exists')
