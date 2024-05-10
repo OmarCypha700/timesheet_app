@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load icon %}
+<div class="container mt-5 mb-5 bg-light p-4 rounded">
+    <div class="row">
+    <div class="col-md-10"></div>
+    <button type="button" class=" col-md-2 btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_timesheet"> {%icon 'plus-circle'%} Add Timesheet</button>
+    </div>
+    <table id="example" class="table table-striped table-hover table-responsive">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Project</th>
+            <th>Description</th>
+            <th>Duration</th>
+            <th>Overtime</th>
+            <th>.</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{report.date}}</td>
+            <td>{{report.project}}</td>
+            <td>{{report.description|truncatechars:15}}</td>
+            <td>{{report.duration}} min</td>
+            <td>{{report.overtime}} min</td>
+            <td>
+              <div class="d-flex ">
+                <a href="{% url 'edit' report.id %}" class="nav-link text-primary"> {% icon 'edit' %} </a>
+                <a href="{% url 'delete' report.id %}" class="nav-link text-danger"> {% icon 'trash-2' %} </a>
+              </div>
+           </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% comment %} Modal {% endcomment %}
+<div class="modal fade" id="add_timesheet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-dark">
+          <h1 class="modal-title fs-5 text-light" id="staticBackdropLabel">Add Timesheet</h1>
+          <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'timesheet' %}" method="post">
+                {% csrf_token %}
+                <div class="card">
+                  <div class="card-body">
+                   <div class="form-group fw-semibold">
+                      <label for="nameField">Name</label>
+                      <input type="text" id="nameField" name="name" class="form-control form-control-sm" value="{{user.get_full_name}}" required />
+                   </div>
+                    <div class="form-group fw-semibold">
+                        <label for="dateField">Date</label>
+                        <input type="date" id="dateField" name="date" class="form-control form-control-sm" required />
+                    </div>
+                    <div class="form-group fw-semibold">
+                      <label for="projectField">Project</label>
+                      <input type="text" name="project" class="form-control form-control-sm" id="projectField" placeholder="Enter project name" required />
+                    </div>
+                    <div class="form-group fw-semibold">
+                      <label for="descriptionField">Description</label>
+                      <textarea name="description" id="descriptionField" rows="3" class="form-control form-control-sm" placeholder="What did you work on" required> 
+                      </textarea>
+                    </div>
+                    <div class="form-group fw-semibold">
+                      <label for="durationField">Duration (in minutes)</label>
+                      <input type="number" name="duration" class="form-control form-control-sm" id="durationField" placeholder="eg, 30" required/>
+                    </div>
+                     <div class="form-group fw-semibold">
+                      <label for="overtimeField">Overtime (in minutes)</label>
+                      <input type="number" name="overtime" class="form-control form-control-sm" id="overtimeField"/>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+            </form>
+            
+        </div>
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}

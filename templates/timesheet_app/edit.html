@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load icon %}
+
+<form method="post" action="{% url 'edit' report.id %}" class="container-md my-5 w-75">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-body">
+       <div class="form-group fw-semibold">
+          <label for="nameField">Name</label>
+          <input type="text" id="nameField" name="name" class="form-control form-control-sm" value="{{report.name}}" required readonly />
+       </div>
+        <div class="form-group fw-semibold">
+            <label for="dateField">Date</label>
+            <input type="text" id="dateField" name="date" class="form-control form-control-sm" value="{{report.date}}" required readonly />
+        </div>
+        <div class="form-group fw-semibold">
+          <label for="projectField">Project</label>
+          <input type="text" name="project" class="form-control form-control-sm" id="projectField" value="{{report.project}}" required />
+        </div>
+        <div class="form-group fw-semibold">
+          <label for="descriptionField">Description</label>
+          <textarea name="description" id="descriptionField" rows="3" class="form-control form-control-sm" Value="{{report.description}}" required> 
+            {{report.description}}  
+        </textarea>
+        </div>
+        <div class="form-group fw-semibold">
+          <label for="durationField">Duration (in minutes)</label>
+          <input type="number" name="duration" class="form-control form-control-sm" id="durationField" Value="{{report.duration}}" required/>
+        </div>
+         <div class="form-group fw-semibold">
+          <label for="overtimeField">Overtime (in minutes)</label>
+          <input type="number" name="overtime" class="form-control form-control-sm" id="overtimeField" value="{{report.overtime}}"/>
+        </div>
+      </div>
+    </div>
+  <button type="button" onclick= "history.back();" class="btn btn-light">Back</button>
+  <button type="submit" class="btn btn-primary">Save</button>
+ </div>
+</form>
+
+{% endblock %}
