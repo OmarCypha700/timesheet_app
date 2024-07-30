@@ -7,35 +7,45 @@
     <div class="card">
       <div class="card-body">
        <div class="form-group fw-semibold">
-          <label for="nameField">Name</label>
-          <input type="text" id="nameField" name="name" class="form-control form-control-sm" value="{{report.name}}" required readonly />
+          <label class="form-label" for="nameField">Name</label>
+          <input type="text" id="nameField" name="name" class="form-control" value="{{report.name}}" required readonly />
        </div>
         <div class="form-group fw-semibold">
-            <label for="dateField">Date</label>
-            <input type="text" id="dateField" name="date" class="form-control form-control-sm" value="{{report.date}}" required readonly />
+            <label class="form-label" for="dateField">Date</label>
+            <input type="text" id="dateField" name="date" class="form-control" value="{{report.date}}" required readonly />
         </div>
+
         <div class="form-group fw-semibold">
           <label for="projectField">Project</label>
-          <input type="text" name="project" class="form-control form-control-sm" id="projectField" value="{{report.project}}" required />
+          <select class="form-control" name="project" aria-label="Select project">
+
+            <option selected>{{report.project}}</option>
+            {% comment %} Enter project options here {% endcomment %}
+            <option value="PRAISE">PRAISE</option>
+            <option value="AIM 3">AIM 3</option>
+            <option value="EPI MAL 002">EPI MAL 002</option>
+            <option value="PRISMA">PRISMA</option>
+          </select>
         </div>
+
         <div class="form-group fw-semibold">
-          <label for="descriptionField">Description</label>
-          <textarea name="description" id="descriptionField" rows="3" class="form-control form-control-sm" Value="{{report.description}}" required> 
+          <label class="form-label" for="descriptionField">Activity</label>
+          <textarea name="description" id="descriptionField" class="form-control" rows="4" cols="50" value="{{report.description}}" required> 
             {{report.description}}  
-        </textarea>
+          </textarea>
         </div>
         <div class="form-group fw-semibold">
-          <label for="durationField">Duration (in minutes)</label>
-          <input type="number" name="duration" class="form-control form-control-sm" id="durationField" Value="{{report.duration}}" required/>
+          <label class="form-label" for="durationField">Timespent (in minutes)</label>
+          <input type="number" name="duration" class="form-control" id="durationField" Value="{{report.duration}}" required/>
         </div>
-         <div class="form-group fw-semibold">
+         {% comment %} <div class="form-group fw-semibold">
           <label for="overtimeField">Overtime (in minutes)</label>
-          <input type="number" name="overtime" class="form-control form-control-sm" id="overtimeField" value="{{report.overtime}}"/>
-        </div>
+          <input type="number" name="overtime" class="form-control" id="overtimeField" value="{{report.overtime}}"/>
+        </div> {% endcomment %}
       </div>
     </div>
-  <button type="button" onclick= "history.back();" class="btn btn-light">Back</button>
-  <button type="submit" class="btn btn-primary">Save</button>
+  <button type="button" onclick= "history.back();" class="btn btn-light mt-2">Back</button>
+  <button type="submit" class="btn btn-primary mt-2">Save</button>
  </div>
 </form>
 

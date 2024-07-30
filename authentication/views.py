@@ -34,7 +34,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 # messages.success(request, 'You have succesfully logged in' )
-                return redirect('index')
+                return redirect('timesheet')
             messages.error(request, 'Invalid credentials,try again')
             return render(request, 'authentication/login.html')
         return render(request, 'authentication/login.html')
@@ -49,12 +49,11 @@ def register_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email'] 
-        # staff_code = request.POST['staff_code']
+        staff_code = request.POST['staff_code']
         password = request.POST['password']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
-        employee_id = request.POST['employee_id']
-        tel = request.POST['phone']
+        # tel = request.POST['phone']
 
         context = {
             'fiedlValue': request.POST,
@@ -67,12 +66,12 @@ def register_user(request):
                     return render(request, 'authentication/register.html', context)
                 user = User.objects.create_user(username=username, 
                                                 email=email, 
-                                                # staff_code=staff_code,
+                                                staff_code=staff_code,
                                                 password=password, 
                                                 first_name=first_name, 
                                                 last_name=last_name,
-                                                employee_id=employee_id,
-                                                tel=tel)
+                                                # tel=tel
+                                                )
                 user.set_password(password)
                 # perm = Permission.objects.get(name=['Can add report'])
                 # user.user_permissions.add(perm)

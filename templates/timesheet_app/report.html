@@ -25,9 +25,9 @@
             <th>Name</th>
             <th>Date</th>
             <th>Project</th>
-            <th>Description</th>
-            <th>Duration</th>
-            <th>Overtime</th>
+            <th>Activity</th>
+            <th>Timespent</th>
+            {% comment %} <th>Overtime</th> {% endcomment %}
 
           </tr>
         </thead>
@@ -40,7 +40,7 @@
             <td>{{report.project}}</td>
             <td>{{report.description|truncatechars:15}}</td>
             <td>{{report.duration}} min</td>
-            <td>{{report.overtime}} min</td>
+            {% comment %} <td>{{report.overtime}} min</td> {% endcomment %}
 
           </tr>
           {% endfor %}
@@ -53,7 +53,7 @@
     <div class="modal-dialog modal-md modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header bg-dark">
-          <h1 class="modal-title fs-5 text-light" id="staticBackdropLabel">Add Timesheet</h1>
+          <h1 class="modal-title fs-5 text-light" id="staticBackdropLabel">Generate Report</h1>
           <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

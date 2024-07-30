@@ -9,20 +9,21 @@ import csv, datetime
 
 User = get_user_model()
 # Create your views here.
-@login_required(login_url='/authentication/login')
-def index(request):
-    return render(request, 'timesheet_app/index.html')
+# @login_required(login_url='/authentication/login')
+# def index(request):
+#     return render(request, 'timesheet_app/index.html')
 
+@login_required(login_url='/authentication/login')
 def timesheet(request):
     if request.method == 'POST':
         name = request.POST['name']
         date = request.POST['date']
         project = request.POST['project']
         duration = request.POST['duration']
-        overtime = request.POST['overtime']
+        staff_code = request.POST['staff_code']
         description = request.POST['description']
 
-        Report.objects.create(owner=request.user, name=name, date=date,project=project,duration=duration,overtime=overtime,description=description)
+        Report.objects.create(owner=request.user, name=name, date=date, project=project, duration=duration, description=description, staff_code=staff_code)
         return redirect('timesheet')
     else:
         reports = Report.objects.filter(owner=request.user)
@@ -30,120 +31,6 @@ def timesheet(request):
             'reports': reports
         }
         return render(request, 'timesheet_app/timesheet.html', context)
-
-
-# def report(request):
-#     if request.method == 'POST':
-#         post_data = request.POST.dict()
-
-#         if 'username' in post_data:
-#             # username = request.POST['username']
-#             username = post_data.get('username')
-#             users = User.objects.exclude(username__in =['admin'])
-#             if username == 'all':
-#                 reports = Report.objects.all()
-#                 context = {
-#                 'reports': reports,
-#                 'users': users,
-#                 }
-#                 return render(request, 'timesheet_app/report.html', context)
-#             else:
-#                 user = User.objects.get(username__iexact=username)
-#                 user_id = user.id
-#                 reports = Report.objects.filter(owner=user_id)
-#             context = {
-#             'reports': reports,
-#             'users': users,
-#             'username': username,
-#             'user_id': user_id
-#             }
-#             return render(request, 'timesheet_app/report.html', context)
-#         else:
-#             name = post_data.get('name')
-#             user_id = post_data.get('user_id')
-#             from_date = post_data.get('from')
-#             to_date = post_data.get('to')
-#             response = HttpResponse(content_type='text/csv')
-#             response['Content-Disposition'] = f'attachment; filename={name}_timesheet_report'+str(datetime.datetime.now())+'.csv'
-#             if name == 'all':
-#                 reports = Report.objects.filter(date__range=[from_date, to_date])
-#             else:
-#                 reports = Report.objects.filter(owner=user_id, date__range=[from_date, to_date])
-#             writer=csv.writer(response)
-#             writer.writerow(['Name', 'Date', 'Project', 'Description', 'Duration (minutes)', 'Overtime (minutes)'])
-#             for report in reports:
-#                 writer.writerow([report.name, report.date, report.project, report.description, report.duration, report.overtime])
-#             return response
-#     else:
-#         users = User.objects.exclude(username__in =['admin'])
-#         context = {
-#             'users': users
-#         }
-#         return render(request, 'timesheet_app/report.html', context)
-
-def report(request):
-    if request.method == 'POST':
-        post_data = request.POST.dict()
-
-        if 'username' in post_data:
-            # username = request.POST['username']
-            username = post_data.get('username')
-            users = User.objects.exclude(username__in =['admin'])
-            if username == 'all':
-                username = 'All'
-                reports = Report.objects.all()
-                context = {
-                'reports': reports,
-                'users': users,
-                'username': username,
-                }
-                return render(request, 'timesheet_app/report.html', context)
-            else:
-                user = User.objects.get(username__iexact=username)
-                user_id = user.id
-                reports = Report.objects.filter(owner=user_id)
-                context = {
-                'reports': reports,
-                'users': users,
-                'username': username,
-                'user_id': user_id
-                }
-            return render(request, 'timesheet_app/report.html', context)
-            # Generating Report
-        else:
-            name = post_data.get('name')
-            # Report for all users with no dates specified
-            if name == 'All':
-                reports = Report.objects.all()
-            # Report for all users with dates specified
-            elif name == 'All' and 'from_date' in post_data and 'to_date' in post_data:
-                from_date = post_data.get('from')
-                to_date = post_data.get('to')
-                reports = Report.objects.filter(date__range=[from_date, to_date])
-            # Report for specific users with dates specified
-            elif name != 'All' and 'from_date' in post_data and 'to_date' in post_data:
-                user_id = post_data.get('user_id')
-                from_date = post_data.get('from')
-                to_date = post_data.get('to')
-                reports = Report.objects.filter(owner=user_id, date__range=[from_date, to_date])
-            # Report for a specific user with no date specified
-            else:
-                user_id = post_data.get('user_id')
-                reports = Report.objects.filter(owner=user_id)
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = f'attachment; filename={name}_timesheet_report'+str(datetime.datetime.now())+'.csv'
-            writer=csv.writer(response)
-            writer.writerow(['Name', 'Date', 'Project', 'Description', 'Duration (minutes)', 'Overtime (minutes)'])
-            for report in reports:
-                writer.writerow([report.name, report.date, report.project, report.description, report.duration, report.overtime])
-            return response
-    # Just render the report page with neccesary context 
-    else:
-        users = User.objects.exclude(username__in =['admin'])
-        context = {
-            'users': users
-        }
-        return render(request, 'timesheet_app/report.html', context)
 
     
 def delete(request, id):
@@ -156,10 +43,10 @@ def edit(request, id):
         # date = request.POST['date']
         project = request.POST['project']
         duration = request.POST['duration']
-        overtime = request.POST['overtime']
+        # overtime = request.POST['overtime']
         description = request.POST['description']
         
-        report = Report.objects.filter(id=id).update(name=name, project=project, duration=duration, overtime=overtime, description=description)
+        report = Report.objects.filter(id=id).update(name=name, project=project, duration=duration, description=description)
 
         return redirect('timesheet')
     else:
@@ -169,3 +56,64 @@ def edit(request, id):
         }
     return render(request, 'timesheet_app/edit.html', context)
 
+
+def report(request):
+    if request.method == 'POST':
+        post_data = request.POST.dict()
+
+        if 'username' in post_data:
+            username = post_data.get('username')
+            users = User.objects.exclude(username__in=['admin'])
+            if username == 'all':
+                username = 'All'
+                reports = Report.objects.all()
+            else:
+                user = User.objects.get(username__iexact=username)
+                user_id = user.id
+                reports = Report.objects.filter(owner=user_id)
+                context = {
+                    'reports': reports,
+                    'users': users,
+                    'username': username,
+                    'user_id': user_id
+                }
+                return render(request, 'timesheet_app/report.html', context)
+            context = {
+                'reports': reports,
+                'users': users,
+                'username': username,
+            }
+            return render(request, 'timesheet_app/report.html', context)
+        
+        else:
+            name = post_data.get('name')
+            from_date = post_data.get('from')
+            to_date = post_data.get('to')
+
+            if name == 'All':
+                if not from_date and not to_date:
+                    reports = Report.objects.all()
+                else:
+                    reports = Report.objects.filter(date__range=[from_date, to_date])
+            else:
+                user_id = post_data.get('user_id')
+                if from_date and to_date:
+                    reports = Report.objects.filter(owner=user_id, date__range=[from_date, to_date])
+                else:
+                    reports = Report.objects.filter(owner=user_id)
+
+            # Generate CSV
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = f'attachment; filename={name}_timesheet_report_{str(datetime.datetime.now())}.csv'
+            writer = csv.writer(response)
+            writer.writerow(['Name', 'Staff Code', 'Date', 'Project', 'Activity', 'Timespent (minutes)'])
+            for report in reports:
+                writer.writerow([report.name, report.staff_code, report.date, report.project, report.description, report.duration])
+            return response
+    
+    else:
+        users = User.objects.exclude(username__in=['admin'])
+        context = {
+            'users': users
+        }
+        return render(request, 'timesheet_app/report.html', context)

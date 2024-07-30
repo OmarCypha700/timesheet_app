@@ -12,8 +12,8 @@ class Report(models.Model):
     duration = models.IntegerField(null=False, blank=False)
     overtime = models.IntegerField(null=True, default=0)
     description = models.TextField(default="")
-    # created_at = models.DateTimeField(auto_now_add=True)
-
+    staff_code = models.CharField(max_length=2, default='')
+    
     def __str__(self):
         return self.name
 

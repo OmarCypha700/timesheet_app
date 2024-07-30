@@ -5,6 +5,6 @@ from .models import CustomUser
 # Register your models here.
 
 fields = list(UserAdmin.fieldsets)
-fields[1] = ('Personal Info', {'fields': ('first_name', 'last_name', 'email', 'employee_id', 'tel')})
+fields[1] = ('Personal Info', {'fields': ('first_name', 'last_name', 'email', 'staff_code')})
 UserAdmin.fieldsets= tuple(fields)
 admin.site.register(CustomUser, UserAdmin)

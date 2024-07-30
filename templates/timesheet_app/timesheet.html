@@ -12,9 +12,9 @@
             <th>#</th>
             <th>Date</th>
             <th>Project</th>
-            <th>Description</th>
-            <th>Duration</th>
-            <th>Overtime</th>
+            <th>Activity</th>
+            <th>Timespent</th>
+            {% comment %} <th>Overtime</th> {% endcomment %}
             <th>Action</th>
           </tr>
         </thead>
@@ -26,7 +26,7 @@
             <td>{{report.project}}</td>
             <td>{{report.description|truncatechars:15}}</td>
             <td>{{report.duration}} min</td>
-            <td>{{report.overtime}} min</td>
+            {% comment %} <td>{{report.overtime}} min</td> {% endcomment %}
             <td>
               <div class="d-flex ">
                 <a href="{% url 'edit' report.id %}" class="nav-link text-primary"> {% icon 'edit' %} </a>
@@ -54,29 +54,41 @@
                   <div class="card-body">
                    <div class="form-group fw-semibold">
                       <label for="nameField">Name</label>
-                      <input type="text" id="nameField" name="name" class="form-control form-control-sm" value="{{user.get_full_name}}" required />
+                      <input type="text" id="nameField" name="name" class="form-control" value="{{user.get_full_name}}" required readonly />
                    </div>
+                   <div class="form-group fw-semibold">
+                      <label for="nameField">Staff Code</label>
+                      <input type="text" id="staffCodeField" name="staff_code" class="form-control" value="{{user.staff_code}}" required readonly />
+                    </div>
                     <div class="form-group fw-semibold">
                         <label for="dateField">Date</label>
-                        <input type="date" id="dateField" name="date" class="form-control form-control-sm" required />
+                        <input type="date" id="dateField" name="date" class="form-control" required />
                     </div>
                     <div class="form-group fw-semibold">
                       <label for="projectField">Project</label>
-                      <input type="text" name="project" class="form-control form-control-sm" id="projectField" placeholder="Enter project name" required />
+                      <select class="form-control" name="project" aria-label="Select project">
+                        {% comment %} Enter project options here {% endcomment %}
+                        <option selected>Select project</option>
+                        <option value="PRAISE">PRAISE</option>
+                        <option value="AIM 3">AIM 3</option>
+                        <option value="EPI MAL 002">EPI MAL 002</option>
+                        <option value="PRISMA">PRISMA</option>
+                      </select>
+                      {% comment %} <input type="text" name="project" class="form-control" id="projectField" placeholder="Enter project name" required /> {% endcomment %}
                     </div>
                     <div class="form-group fw-semibold">
-                      <label for="descriptionField">Description</label>
-                      <textarea name="description" id="descriptionField" rows="3" class="form-control form-control-sm" placeholder="What did you work on" required> 
+                      <label for="descriptionField">Activity</label>
+                      <textarea name="description" id="descriptionField" rows="5" class="form-control" placeholder="What did you work on" required> 
                       </textarea>
                     </div>
                     <div class="form-group fw-semibold">
-                      <label for="durationField">Duration (in minutes)</label>
-                      <input type="number" name="duration" class="form-control form-control-sm" id="durationField" placeholder="eg, 30" required/>
+                      <label for="durationField">Timespent (in minutes)</label>
+                      <input type="number" name="duration" class="form-control" id="durationField" placeholder="eg, 30" required/>
                     </div>
-                     <div class="form-group fw-semibold">
+                     {% comment %} <div class="form-group fw-semibold">
                       <label for="overtimeField">Overtime (in minutes)</label>
-                      <input type="number" name="overtime" class="form-control form-control-sm" id="overtimeField"/>
-                    </div>
+                      <input type="number" name="overtime" class="form-control" id="overtimeField"/>
+                    </div> {% endcomment %}
                   </div>
                 </div>
             </div>

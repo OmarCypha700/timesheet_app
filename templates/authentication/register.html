@@ -8,7 +8,7 @@
 <div class="row">
   <div class="col-md-4"></div>
   <div class="col-md-4">
-  <a href="{% url 'index' %}" class="btn btn-primary"> ← Back</a>
+  <a href="{% url 'timesheet' %}" class="btn btn-primary"> ← Back</a>
     <div class="card mt-2 mb-3">
       <div class="card-body">
         <form action="{% url 'register' %}" method="post">
@@ -40,30 +40,18 @@
             />
           </div>
           <div class="form-group p-2">
-            <label for="employeeIdField"> Employee ID: </label>
-            <input
-              type="text"
-              name="employee_id"
-              id="employeeIdField"
-              class="form-control form-control-sm"
-              placeholder="eg.KRC0010, can be found on payslip"
-              value="{{fiedlValue.employee_id}}"
-              required
-            />
-          </div>
-          {% comment %} <div class="form-group p-2">
             <label for="staffCodeField"> Staff Code: </label>
             <input
               type="text"
               name="staff_code"
               id="staffCodeField"
               class="form-control form-control-sm"
-              placeholder="eg.KP"
+              placeholder="eg.CC"
               value="{{fiedlValue.staff_code}}"
               required
             />
-          </div> {% endcomment %}
-          <div class="form-group p-2">
+          </div>
+          {% comment %} <div class="form-group p-2">
             <label for="phoneField"> Phone Number: </label>
             <input
               type="tel"
@@ -75,7 +63,7 @@
               value="{{fiedlValue.phone}}"
               required
             />
-          </div>
+          </div> {% endcomment %}
           <div class="form-group p-2">
             <label for="usernameField"> Username: </label>
             <input
